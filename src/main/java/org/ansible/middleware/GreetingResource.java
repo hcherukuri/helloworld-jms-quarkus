@@ -33,11 +33,14 @@ public class GreetingResource {
     // private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
     //private static final String PROVIDER_URL = "http-remoting://"+ System.getenv("wildfly_vm_ip")+ ":8080";
     @ConfigProperty(name = "greeting.wildfly_vm_ip", defaultValue="localhost")
+    String wildflyVm;
+
     private static final String PROVIDER_URL = "http-remoting://"+ System.getenv("wildfly_vm_ip")+ ":8080";
 String suffix;
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
+        log.info(String.format("Wildfly VM IP: %s", wildflyVm));
         String userName = System.getProperty("username", DEFAULT_USERNAME);
         String password = System.getProperty("password", DEFAULT_PASSWORD);
         // Set up the namingContext for the JNDI lookup
