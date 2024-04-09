@@ -29,12 +29,8 @@ public class GreetingResource {
     private static final String DEFAULT_USERNAME = "quickstartUser";
     private static final String DEFAULT_PASSWORD = "quickstartPwd1!";
     private static final String INITIAL_CONTEXT_FACTORY = "org.wildfly.naming.client.WildFlyInitialContextFactory";
-    // private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
-    //private static final String PROVIDER_URL = "http-remoting://"+ System.getenv("wildfly_vm_ip")+ ":8080";
     @ConfigProperty(name = "greeting.wildfly_vm_ip", defaultValue="localhost")
     String wildflyVm;
-    //private static final String PROVIDER_URL = "http-remoting://"+ wildflyVm + ":8080";
-String suffix;
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
