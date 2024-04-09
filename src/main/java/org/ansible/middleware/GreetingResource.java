@@ -21,7 +21,6 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 @Path("/hello")
 public class GreetingResource {
     private static final Logger log = Logger.getLogger(GreetingResource.class.getName());
-
     // Set up all the default values
     private static final String DEFAULT_MESSAGE = "Hello, World!";
     private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
@@ -33,17 +32,19 @@ public class GreetingResource {
     // private static final String PROVIDER_URL = "http-remoting://127.0.0.1:8080";
     //private static final String PROVIDER_URL = "http-remoting://"+ System.getenv("wildfly_vm_ip")+ ":8080";
     @ConfigProperty(name = "greeting.wildfly_vm_ip", defaultValue="localhost")
-    private static final String PROVIDER_URL = "http-remoting://"+ System.getenv("wildfly_vm_ip")+ ":8080";
+    String wildflyVm;
+    //private static final String PROVIDER_URL = "http-remoting://"+ wildflyVm + ":8080";
 String suffix;
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
+        log.info(String.format("Wildfly VM IP: %s", wildflyVm));
         String userName = System.getProperty("username", DEFAULT_USERNAME);
         String password = System.getProperty("password", DEFAULT_PASSWORD);
         // Set up the namingContext for the JNDI lookup
         final Properties env = new Properties();
         env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
-        env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, PROVIDER_URL));
+        env.put(Context.PROVIDER_URL, System.getProperty(Context.PROVIDER_URL, "http-remoting://"+ wildflyVm + ":8080"));
         env.put(Context.SECURITY_PRINCIPAL, userName);
         env.put(Context.SECURITY_CREDENTIALS, password);
 
