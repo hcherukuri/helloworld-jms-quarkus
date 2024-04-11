@@ -1,5 +1,4 @@
 package org.ansible.middleware;
-import java.util.logging.Level;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
@@ -15,8 +14,9 @@ public class FooResource {
     @POST
     public void send(FlightRecord flightRecord) {
     
-        consumer.DEFAULT_MESSAGE = flightRecord.origin + " to " +flightRecord.destination;
-        System.out.println(consumer.DEFAULT_MESSAGE);
+        String message = flightRecord.origin + " to " +flightRecord.destination;
+        // System.out.println(message);
+        consumer.hello(message);
 
     }
 

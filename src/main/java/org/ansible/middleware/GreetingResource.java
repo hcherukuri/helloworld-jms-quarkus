@@ -22,7 +22,6 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class GreetingResource {
     private static final Logger log = Logger.getLogger(GreetingResource.class.getName());
     // Set up all the default values
-    String DEFAULT_MESSAGE;
     private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
     private static final String DEFAULT_DESTINATION = "jms/queue/test";
     private static final String DEFAULT_MESSAGE_COUNT = "1";
@@ -41,7 +40,7 @@ public class GreetingResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    public void hello() {
+    public void hello(String message) {
         log.info(String.format("Wildfly VM IP: %s", wildflyVm));
         String userName = System.getProperty("username", DEFAULT_USERNAME);
         String password = System.getProperty("password", DEFAULT_PASSWORD);
@@ -67,7 +66,7 @@ public class GreetingResource {
             log.log(Level.INFO, "Found destination \"{0}\" in JNDI", destinationString);
 
             int count = Integer.parseInt(System.getProperty("message.count", DEFAULT_MESSAGE_COUNT));
-            String content = System.getProperty("message.content", DEFAULT_MESSAGE);
+            String content = System.getProperty("message.content", message);
 
             try (JMSContext context = connectionFactory.createContext(userName, password)) {
                 log.log(Level.INFO, "Sending {0} messages with content: {1}", new Object[]{count, content});
